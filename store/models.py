@@ -18,8 +18,9 @@ class Collection(models.Model):
 class Product(models.Model):
     # sku = models.CharField(max_length=255, primary_key=True)
     title = models.CharField(max_length=255)
+    slug = models.SlugField(default='')
     description = models.TextField()
-    price = models.FloatField(default=0.00)
+    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey('Collection', on_delete=models.PROTECT)
@@ -38,10 +39,10 @@ class Customer(models.Model):
     ]
 
     first_name = models.CharField(max_length=255)
-    lastname_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=255)
-    burth_date = models.DateField(null=True)
+    birth_date = models.DateField(null=True)
     membership = models.CharField(
         max_length=1, choices=MEMBERSHIP_CHOOICES, default=MEMBERSHIP_BRONZE)
 
@@ -57,7 +58,7 @@ class Order(models.Model):
         (PAYMENT_STATUS_FAILED, 'Failed'),
     ]
 
-    palaced_at = models.DateTimeField(auto_now_add=True)
+    placed_at = models.DateTimeField(auto_now_add=True)
     payment_status = models.CharField(
         max_length=1, choices=PAYMENT_STATUS_CHOOICES, default=PAYMENT_STATUS_PENDING)
 
